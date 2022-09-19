@@ -19,7 +19,9 @@ Route::redirect('/', '/prototype/login');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::prefix('prototype')
     ->name('prototype.')
@@ -35,6 +37,10 @@ Route::prefix('prototype')
         Route::get('/dashboard', function () {
             return Inertia::render('Prototype/Dashboard');
         })->name('dashboard');
+
+        Route::get('/subscriptionPlan', function () {
+            return Inertia::render('Prototype/SubscriptionPlan');
+        })->name('subscriptionPlan');
     });
 
 require __DIR__ . '/auth.php';
