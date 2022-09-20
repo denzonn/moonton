@@ -1,7 +1,8 @@
 // Untuk dropdown
+import { Link } from '@inertiajs/inertia-react'
 import { useState, useRef } from 'react'
 
-export default function Topbar() {
+export default function Topbar({ name }) {
   // Settingan dropdown
   const [dropdownOpen, setDropdownOpen] = useState(true)
   const dropdownTarget = useRef()
@@ -23,9 +24,7 @@ export default function Topbar() {
         placeholder="Search movie, cast, genre"
       />
       <div className="flex items-center gap-4">
-        <span className="text-black text-sm font-medium">
-          Welcome, Granola Sky
-        </span>
+        <span className="text-black text-sm font-medium">Welcome, {name}</span>
         {/* <!-- user avatar --> */}
         <div className="collapsible-dropdown flex flex-col gap-2 relative">
           <div
@@ -48,12 +47,13 @@ export default function Topbar() {
             <a href="#!" className="transition-all hover:bg-sky-100 p-4">
               Settings
             </a>
-            <a
-              href="sign_in.html"
+            <Link
+              href={route('logout')}
+              method="post"
               className="transition-all hover:bg-sky-100 p-4"
             >
               Sign Out
-            </a>
+            </Link>
           </div>
         </div>
       </div>
