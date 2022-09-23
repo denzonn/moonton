@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\MovieController;
+use App\Http\Controllers\User\SubscriptionPlanController;
+use App\Models\SubscriptionPlan;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +32,17 @@ Route::middleware(['auth', 'role:user'])
             MovieController::class,
             'show',
         ])->name('movie.show');
+
+        Route::get('subscription-plan', [
+            SubscriptionPlanController::class,
+            'index',
+        ])->name('subscriptionPlan.index');
+
+        // Untuk data button subscribe
+        Route::post('subscription-plan/{subscriptionPlan}/user-subscribe', [
+            SubscriptionPlanController::class,
+            'userSubscribe',
+        ])->name('subscriptionPlan.userSubscribe');
     });
 
 Route::prefix('prototype')
