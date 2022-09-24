@@ -28,21 +28,24 @@ Route::middleware(['auth', 'role:user'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-        Route::get('movie/{movie:slug}', [
-            MovieController::class,
-            'show',
-        ])->name('movie.show');
+        Route::get('movie/{movie:slug}', [MovieController::class, 'show'])
+            ->name('movie.show')
+            ->middleware('checkUserSubscription:true');
 
         Route::get('subscription-plan', [
             SubscriptionPlanController::class,
             'index',
-        ])->name('subscriptionPlan.index');
+        ])
+            ->name('subscriptionPlan.index')
+            ->middleware('checkUserSubscription:false');
 
         // Untuk data button subscribe
         Route::post('subscription-plan/{subscriptionPlan}/user-subscribe', [
             SubscriptionPlanController::class,
             'userSubscribe',
-        ])->name('subscriptionPlan.userSubscribe');
+        ])
+            ->name('subscriptionPlan.userSubscribe')
+            ->middleware('checkUserSubscription:false');
     });
 
 Route::prefix('prototype')
