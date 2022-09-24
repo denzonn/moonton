@@ -7,12 +7,28 @@ export default function SubscriptionDetail({
   const remainingDays = activeDays - remainingActiveDays
   const loadingProgress = () => {
     const progress = remainingDays / activeDays
-    if (progress < 0.25) {
+    if (progress < 0.08) {
+      return 'w-1/12'
+    } else if (progress < 0.16) {
+      return 'w-2/12'
+    } else if (progress < 0.24) {
       return 'w-3/12'
-    } else if (progress < 0.5) {
+    } else if (progress < 0.32) {
+      return 'w-4/12'
+    } else if (progress < 0.4) {
+      return 'w-5/12'
+    } else if (progress < 0.48) {
       return 'w-6/12'
-    } else if (progress < 0.75) {
+    } else if (progress < 0.56) {
+      return 'w-7/12'
+    } else if (progress < 0.64) {
+      return 'w-8/12'
+    } else if (progress < 0.72) {
       return 'w-9/12'
+    } else if (progress < 0.8) {
+      return 'w-10/12'
+    } else if (progress < 0.88) {
+      return 'w-11/12'
     } else {
       return 'w-full'
     }
