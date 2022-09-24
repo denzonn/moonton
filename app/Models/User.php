@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,21 +21,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * The attributes that should be cast.
@@ -42,4 +38,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Tambahan ada di handleinertiarequest
+    public function getIsActiveAttribute()
+    {
+        if (!$this->LastActiveUserSubscription) {
+            return false;
+        }
+
+        $dateNow = Carbon::now();
+        $dateExpired = Carbon::create(
+            $this->LastActiveUserSubscription->expired_date
+        );
+        // Kalau date expirednya masih kurang dari date now, berarti user ini masih aktif
+        return $dateNow->lessThanOrEqualTo($dateExpired);
+    }
+
+    public function LastActiveUserSubscription(): HasOne
+    {
+        return $this->hasOne(UserSubscription::class)
+            ->wherePaymentStatus('paid')
+            ->latest();
+    }
 }
