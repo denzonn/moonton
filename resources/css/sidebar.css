@@ -7,7 +7,7 @@
     @apply text-[#B7B7B7];
   }
   .side-link.active {
-    @apply font-semibold border-r-[3px] border-alerange;
+    @apply font-semibold border-r-[15px] border-alerange;
   }
 
   .side-link.active svg {
