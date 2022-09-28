@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MovieController as AdminMovieController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\MovieController;
 use App\Http\Controllers\User\SubscriptionPlanController;
@@ -46,6 +47,17 @@ Route::middleware(['auth', 'role:user'])
         ])
             ->name('subscriptionPlan.userSubscribe')
             ->middleware('checkUserSubscription:false');
+    });
+
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.dashboard.')
+    ->group(function () {
+        Route::put('movie/{movie}/restore', [
+            AdminMovieController::class,
+            'restore',
+        ])->name('movie.restore');
+        Route::resource('movie', AdminMovieController::class);
     });
 
 Route::prefix('prototype')
